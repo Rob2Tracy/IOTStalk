@@ -5,6 +5,14 @@ from Model.SpecialityProtocols.Redis import Redis
 class JSONSlicers:
 
 
+
+
+
+
+
+
+
+
    def protocolSeperator(self,protocols,num):
     protocolsFound = []   # Protocol port # odds, Protocol name # evens
 
@@ -56,6 +64,7 @@ class JSONSlicers:
                version = metadata["version"]
 
                service = Service(product,version,"NULL")
+               foundProducts.append(service)
 
            elif(protocol.getProtocol() == "banner"):
                if(protocol.getPort() == "22"):
@@ -63,6 +72,7 @@ class JSONSlicers:
                    protocol.setProtocol("ssh")
                    extra = data[protocol.getPort()]["banner"]["banner_decoded"]
                    service = Service("ssh",version,extra)
+                   foundProducts.append(service)
            else:
                print("add " + protocol.getProtocol())
 
