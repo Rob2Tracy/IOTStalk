@@ -10,9 +10,6 @@ class JSONSlicers:
 
 
 
-
-
-
    def protocolSeperator(self,protocols,num):
     protocolsFound = []   # Protocol port # odds, Protocol name # evens
 

@@ -5,11 +5,14 @@ import censys.ipv4
 from JSONSlicers import JSONSlicers
 from Model.Protocol import Protocol
 from Model.Host import Host
+from Test import Test
 
 
 API_URL = "https://censys.io/api/v1"
-UID = "a4e47672-8df9-4bd3-a935-7409ff4c333c"
-SECRET = "jqL3H9ZhbGfTrqCGRSCqWdNJfXOunpzv"
+
+UID = ""
+SECRET = ""
+
 hostIPS = []
 hostDetailed = []
 
@@ -19,38 +22,19 @@ hosts = []
 slicer = JSONSlicers()
 
 c = censys.ipv4.CensysIPv4(api_id=UID, api_secret=SECRET)
+i=1
+#for i in range(1,10001):
 
-for result in c.search("autonomous_system.asn:15169 AND tags.raw:iot", max_records=3):
+for result in c.search("tags.raw:iot", max_records=1000,fields=["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name","8080.http.get.body","80.http.get.body","443.http.get.body"]):
 
-  #   print(result["ip"])
-     hostIPS.append(result["ip"]);
-
-for details in c.view(host):
-    # data = json.dumps(details, separators=(":",','))
-    # dataform = str(details).strip("'<>() ").replace('\'', '\"')
-    # struct = json.loads(dataform)
-    data = json.loads(details)
-    print(data)
-
-#        with open("currentHost.json", "w") as write_file:
-#               json.dump(c.view(host), write_file)
-# with open('currentHost.json') as json_file:
-#        data = json.load(json_file)
-#        numProtocols = len(data["protocols"])
+     print(result)
 
 
-#        foundProtocols = slicer.protocolSeperator(data["protocols"], numProtocols)
 
-#       foundProducts = slicer.bannerGrab(foundProtocols, numProtocols, data)
-#       geoLocation = slicer.geoGrab(data)
-#       ip = data["ip"]
 
-#      host = Host(ip,geoLocation,foundProducts,foundProtocols)
-#      hosts.append(host)
 
-# for details in hostDetailed:
-#     test = json.loads(details)
-# print(test)
+
+
 
 
 
