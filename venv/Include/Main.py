@@ -10,8 +10,8 @@ from Test import Test
 
 API_URL = "https://censys.io/api/v1"
 
-UID = "8b283696-e777-4291-a8c0-420896961798"
-SECRET = "z6mmLUY0nULUkKn7vji9m9rGIvQbHIgT"
+UID = ""
+SECRET = ""
 
 hostIPS = []
 hostDetailed = []
