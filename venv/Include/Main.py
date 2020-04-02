@@ -9,8 +9,8 @@ from Test import Test
 
 API_URL = "https://censys.io/api/v1"
 
-UID = ""
-SECRET = ""
+UID = "8b283696-e777-4291-a8c0-420896961798"
+SECRET = "z6mmLUY0nULUkKn7vji9m9rGIvQbHIgT"
 
 hostIPS = []
 hostDetailed = []
@@ -101,7 +101,8 @@ if __name__ == "__main__":
 
   length = len(sys.argv)
   if length == 1:
-    sys.exit("Usage: Main.py [-c count] [-t tag] [-f filters] [-o output filename]")
+    print("Runnign the default query")
+    print("Usage: Main.py [-c count] [-t tag] [-f filters] [-o output filename]")
 
   i = 1
   # Loop over arguments trying to modify the default values with command line arguments
@@ -122,6 +123,7 @@ if __name__ == "__main__":
 
     elif sys.argv[i] == "-f":
       while i+1 < length and sys.argv[i+1][0] != '-':
+
         filters.append(sys.argv[i+1])
         i += 1
 
