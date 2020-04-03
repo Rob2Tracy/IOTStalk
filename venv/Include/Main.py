@@ -33,7 +33,7 @@ def createCSV():
 
   with open('data.csv', 'w') as csv_file:
     with open('jsontext.txt', 'w') as f:
-      json_list = list(c.search("tags.raw:iot", max_records=1000,fields=["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name",]))
+      json_list = list(c.search("tags.raw:iot", max_records=1000,fields=["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name",  ]))
       json_list.sort(key=lambda j: len(j), reverse=True) # Should sort the list so that the json object with the most keys is on the top
       key_object = json_list[0] # Keep the first json object to have a list of keys
 
@@ -92,7 +92,13 @@ def run(count, tags, filters, filename):
 if __name__ == "__main__":
   count = 1
   tag = "iot"
-  filters = ["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name"]
+  filters = ["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name", ]
+
+  filtersOne = ["21.ftp.banner","21.ftp.metadata.product","21.ftp.metadata.version","23.telnet.banner.banner ", "3306.mysql.banner.server_version","3306.mysql.banner.capability_flags.MYSQL_OLD_PASSWORD ","3306.mysql.banner.capability_flags.CLIENT_SECURE_CONNECTION","3306.mysql.banner.capability_flags.CLIENT_LONG_PASSWORD ","3306.mysql.banner.capability_flags.CLIENT_SSL ", ]
+  filtersTwo = ["8883.mqtt.banner.connack.raw ","8883.mqtt.banner.tls.signature.valid ","8883.mqtt.banner.tls.version ", "8883.mqtt.banner.tls.certificate.parsed.signature.self_signed ","1883.mqtt.banner.connack.raw ","1883.mqtt.banner.tls.signature.valid ", "1883.mqtt.banner.tls.version ","1883.mqtt.banner.tls.certificate.parsed.signature.self_signed ","5672.amqp.banner.version.major"
+                     ,"5672.amqp.banner.version.minor ","5672.amqp.banner.version.revision ","80.http.get.title ","80.http.get.status_code ","80.http.get.metadata.product ","80.http.get.metadata.version ","80.http.get.body",]
+  filtersThree = ["443.https.get.title ","443.https.get.status_code ","443.https.get.metadata.product ","443.https.get.metadata.version ","443.https.get.body","8080.http.get.title ","8080.http.get.status_code ","8080.http.get.metadata.product ","8080.http.get.metadata.version ","8080.http.get.body","5672.amqp.version.major"
+                     ,"5672.amqp.version.minor ","5672.amqp.version.revision ",]
   outputFilename = "output.json"
 
   for a in sys.argv:
@@ -101,7 +107,7 @@ if __name__ == "__main__":
 
   length = len(sys.argv)
   if length == 1:
-    print("Runnign the default query")
+    print("Running the default query")
     print("Usage: Main.py [-c count] [-t tag] [-f filters] [-o output filename]")
 
   i = 1
