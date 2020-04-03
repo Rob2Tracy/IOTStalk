@@ -79,7 +79,7 @@ def run(count, tags, filters, filename):
   c = censys.ipv4.CensysIPv4(api_id=UID, api_secret=SECRET)
 
   with open(filename, 'w') as f:
-    json_list = list(c.search("tags.raw:"+tag, max_records=count,fields=filters))
+    json_list = list(c.search("tags.raw:"+tag, max_records=count,fields=filters,))
     for result in json_list: # result is a json object
       # Handle missing json keys too
       print(result)
@@ -88,6 +88,28 @@ def run(count, tags, filters, filename):
 
 
   pass
+
+#for results in c.search("tags.raw:"):
+#  hosts.append(results["ip"])
+
+#with open(filename, 'w') as f:
+#  for ip in hosts:
+#    resultOne = list(c.search(query=ip,fields=filters,))
+#    resultTwo = list(c.search(query=ip,fields=filtersOne,))
+#    resultThree = list(c.search(query=ip,fields=filtersTwo,))
+#    resultFour = list(c.search(query=ip,fields=filtersThree,))
+#    json.dump(resultOne,f)
+#    f.append("\n")
+#    json.dump(resultTwo,f)
+#    f.append("\n")
+#    json.dump(resultThree,f)
+#    f.append("\n")
+#    json.dump(resultFour,f)
+#    f.append("\n")
+
+
+
+
 
 if __name__ == "__main__":
   count = 1
