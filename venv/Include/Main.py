@@ -89,23 +89,25 @@ def run(count, tags, filters, filename):
 
   pass
 
-#for results in c.search("tags.raw:"):
+
+
+# for results in c.search("tags.raw:"):
 #  hosts.append(results["ip"])
 
-#with open(filename, 'w') as f:
+#with open(filename, 'a') as f:
 #  for ip in hosts:
 #    resultOne = list(c.search(query=ip,fields=filters,))
 #    resultTwo = list(c.search(query=ip,fields=filtersOne,))
 #    resultThree = list(c.search(query=ip,fields=filtersTwo,))
 #    resultFour = list(c.search(query=ip,fields=filtersThree,))
 #    json.dump(resultOne,f)
-#    f.append("\n")
+#    f.write("\n")
 #    json.dump(resultTwo,f)
-#    f.append("\n")
+#    f.write("\n")
 #    json.dump(resultThree,f)
-#    f.append("\n")
+#    f.write("\n")
 #    json.dump(resultFour,f)
-#    f.append("\n")
+#    f.write("\n")
 
 
 
