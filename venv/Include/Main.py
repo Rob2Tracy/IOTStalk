@@ -9,9 +9,11 @@ from Test import Test
 
 API_URL = "https://censys.io/api/v1"
 
-UID = "8b283696-e777-4291-a8c0-420896961798"
-SECRET = "z6mmLUY0nULUkKn7vji9m9rGIvQbHIgT"
+#UID = "8b283696-e777-4291-a8c0-420896961798"
+#SECRET = "z6mmLUY0nULUkKn7vji9m9rGIvQbHIgT"
 
+UID = "a4e47672-8df9-4bd3-a935-7409ff4c333c"
+SECRET = "jqL3H9ZhbGfTrqCGRSCqWdNJfXOunpzv"
 hostIPS = []
 hostDetailed = []
 
@@ -33,7 +35,7 @@ def createCSV():
 
   with open('data.csv', 'w') as csv_file:
     with open('jsontext.txt', 'w') as f:
-      json_list = list(c.search("tags.raw:iot", max_records=1000,fields=["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name",  ]))
+      json_list = list(c.search("tags.raw:iot", max_records=4000,fields=filters))
       json_list.sort(key=lambda j: len(j), reverse=True) # Should sort the list so that the json object with the most keys is on the top
       key_object = json_list[0] # Keep the first json object to have a list of keys
 
@@ -57,13 +59,22 @@ def createCSV():
                 if key == "protocols":
                   csv_file.write(str(protocol))
                 else:
-                  csv_file.write(str(result[key]).replace(',', ' '))
+
+                  if str(result[key]) == "Telef�nica Celular de Bolivia S.A." or "Mikołów":
+                  #  print(str(result[key]) + "\n")
+                    pass
+
+
+                  else:
+
+                    csv_file.write(str(result[key]).replace(',', ' '))
               else:
                 csv_file.write('')
               csv_file.write(',')
             csv_file.write("\n")
             if not flatten_protocols: # Exit loop to only print the first protocol if this is not set
               break
+      
 
         else:
           for key in key_object:
@@ -78,13 +89,43 @@ def createCSV():
 def run(count, tags, filters, filename):
   c = censys.ipv4.CensysIPv4(api_id=UID, api_secret=SECRET)
 
-  with open(filename, 'w') as f:
-    json_list = list(c.search("tags.raw:"+tag, max_records=count,fields=filters,))
+  with open('output.json', 'a') as f:
+
+    json_list = list(c.search("tags.raw:"+tag, max_records=4000,fields=filtersThree,))
     for result in json_list: # result is a json object
+  # Handle missing json keys too
+       print(result)
+       json.dump(result, f)
+       f.write("\n")
+
+  #for results in c.search("tags.raw:iot"):
+    #hosts.append(results["ip"])
+
+    #with open(filename, 'a') as f:
+
+
+      #for ip in hosts:
+
+       # resultOne = list(c.search(query=ip,fields=filters,max_records=5000))
+       # resultTwo = list(c.search(query=ip,fields=filtersOne,))
+       # resultThree = list(c.search(query=ip,fields=filtersTwo,))
+       # resultFour = list(c.search(query=ip,fields=filtersThree,))
+       # json.dump(resultOne,f)
+       # f.write("\n")
+       # json.dump(resultTwo,f)
+       # f.write("\n")
+       # json.dump(resultThree,f)
+       # f.write("\n")
+       # json.dump(resultFour,f)
+       # f.write("\n")
+
+ # with open(filename, 'w') as f:
+ #   json_list = list(c.search("tags.raw:"+tag, max_records=count,fields=filters,))
+ #   for result in json_list: # result is a json object
       # Handle missing json keys too
-      print(result)
-      json.dump(result, f)
-      f.write("\n")
+ #     print(result)
+ #     json.dump(result, f)
+ #     f.write("\n")
 
 
   pass
@@ -118,11 +159,11 @@ if __name__ == "__main__":
   tag = "iot"
   filters = ["location.country","ip","location.city","country.code","protocols","location.longitude","location.latitude","signature.self_signed","autonomous_system.name", ]
 
-  filtersOne = ["21.ftp.banner","21.ftp.metadata.product","21.ftp.metadata.version","23.telnet.banner.banner ", "3306.mysql.banner.server_version","3306.mysql.banner.capability_flags.MYSQL_OLD_PASSWORD ","3306.mysql.banner.capability_flags.CLIENT_SECURE_CONNECTION","3306.mysql.banner.capability_flags.CLIENT_LONG_PASSWORD ","3306.mysql.banner.capability_flags.CLIENT_SSL ", ]
-  filtersTwo = ["8883.mqtt.banner.connack.raw ","8883.mqtt.banner.tls.signature.valid ","8883.mqtt.banner.tls.version ", "8883.mqtt.banner.tls.certificate.parsed.signature.self_signed ","1883.mqtt.banner.connack.raw ","1883.mqtt.banner.tls.signature.valid ", "1883.mqtt.banner.tls.version ","1883.mqtt.banner.tls.certificate.parsed.signature.self_signed ","5672.amqp.banner.version.major"
-                     ,"5672.amqp.banner.version.minor ","5672.amqp.banner.version.revision ","80.http.get.title ","80.http.get.status_code ","80.http.get.metadata.product ","80.http.get.metadata.version ","80.http.get.body",]
-  filtersThree = ["443.https.get.title ","443.https.get.status_code ","443.https.get.metadata.product ","443.https.get.metadata.version ","443.https.get.body","8080.http.get.title ","8080.http.get.status_code ","8080.http.get.metadata.product ","8080.http.get.metadata.version ","8080.http.get.body","5672.amqp.version.major"
-                     ,"5672.amqp.version.minor ","5672.amqp.version.revision ",]
+  filtersOne = ["ip","21.ftp.banner","21.ftp.metadata.product","21.ftp.metadata.version","23.telnet.banner.banner ", "3306.mysql.banner.server_version","3306.mysql.banner.capability_flags.MYSQL_OLD_PASSWORD ","3306.mysql.banner.capability_flags.CLIENT_SECURE_CONNECTION","3306.mysql.banner.capability_flags.CLIENT_LONG_PASSWORD ","3306.mysql.banner.capability_flags.CLIENT_SSL ", ]
+  filtersTwo = ["ip","8883.mqtt.banner.connack.raw ","8883.mqtt.banner.tls.signature.valid ","8883.mqtt.banner.tls.version ", "8883.mqtt.banner.tls.certificate.parsed.signature.self_signed ","1883.mqtt.banner.connack.raw ","1883.mqtt.banner.tls.signature.valid ", "1883.mqtt.banner.tls.version ","1883.mqtt.banner.tls.certificate.parsed.signature.self_signed ","5672.amqp.banner.version.major"
+                     ,"5672.amqp.banner.version.minor","5672.amqp.banner.version.revision",]
+  #filtersThree = ["ip","443.https.get.title","443.https.get.status_code","443.https.get.metadata.product","443.https.get.metadata.version","443.https.get.body","8080.http.get.title","8080.http.get.status_code","8080.http.get.metadata.product","8080.http.get.metadata.version","8080.http.get.body","5672.amqp.version.major"
+  #                   ,"5672.amqp.version.minor","5672.amqp.version.revision","80.http.get.title ","80.http.get.status_code","80.http.get.metadata.product","80.http.get.metadata.version","80.http.get.body",]
   outputFilename = "output.json"
 
   for a in sys.argv:
@@ -180,8 +221,8 @@ if __name__ == "__main__":
   print("filters: " + str(filters))
   print("outputFilename: " + str(outputFilename))
 
-  run(count, tag, filters, outputFilename)
-
+  #run(count, tag, filters, outputFilename)
+  createCSV()
   print("")
 
 
